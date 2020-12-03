@@ -6,3 +6,5 @@ The changes include:
 
 * Graph layout engine is changed to MSAGL (from GLEE)
 * Project files changed to target .Net 4.0 (instead of .Net 2.0)
+
+New Features
