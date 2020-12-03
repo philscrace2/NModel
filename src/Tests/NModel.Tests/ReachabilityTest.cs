@@ -16,7 +16,7 @@ namespace NModel.Tests
         public void SwitchTest()
         {
             Reachability mc = new Reachability();
-            //mc.ExcludeIsomorphicStates = false;
+            mc.excludeIsomorphicStates = false;
             mc.ModelProgram = LibraryModelProgram.Create(typeof(SampleModels.PowerSwitch.Contract));
             ReachabilityResult result=mc.CheckReachability();
             Assert.AreEqual(result.StateCount, 2, "The state count returned differs from actual...");

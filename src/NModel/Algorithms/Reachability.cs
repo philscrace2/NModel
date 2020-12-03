@@ -46,7 +46,7 @@ namespace NModel.Algorithms
         //Dictionary<Node, Dictionary<CompoundTerm, Node>> actionsExploredFromNode;
         //Set<Transition> hiddenTransitions;
         //internal int maxTransitions;
-        internal bool excludeIsomorphicStates;
+        public bool excludeIsomorphicStates;
         //internal bool collapseExcludedIsomorphicStates;
         //int initTransitions;
         //CompoundTerm goal;
