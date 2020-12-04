@@ -41,6 +41,7 @@ namespace NModel.Visualization
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.modelProgramGraphView1 = new NModel.Visualization.ModelProgramGraphView();
+            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelForTestMode.SuspendLayout();
             this.menuStripMPV.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -101,17 +102,18 @@ namespace NModel.Visualization
             this.toolStripMenuItemFile});
             this.menuStripMPV.Location = new System.Drawing.Point(0, 0);
             this.menuStripMPV.Name = "menuStripMPV";
-            this.menuStripMPV.Size = new System.Drawing.Size(1168, 28);
+            this.menuStripMPV.Size = new System.Drawing.Size(1168, 30);
             this.menuStripMPV.TabIndex = 4;
             this.menuStripMPV.Text = "File";
             // 
             // toolStripMenuItemFile
             // 
             this.toolStripMenuItemFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openToolStripMenuItem,
             this.saveSettingsToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.toolStripMenuItemFile.Name = "toolStripMenuItemFile";
-            this.toolStripMenuItemFile.Size = new System.Drawing.Size(46, 24);
+            this.toolStripMenuItemFile.Size = new System.Drawing.Size(46, 26);
             this.toolStripMenuItemFile.Text = "File";
             // 
             // saveSettingsToolStripMenuItem
@@ -157,6 +159,13 @@ namespace NModel.Visualization
             this.modelProgramGraphView1.Size = new System.Drawing.Size(1160, 377);
             this.modelProgramGraphView1.TabIndex = 0;
             // 
+            // openToolStripMenuItem
+            // 
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.openToolStripMenuItem.Text = "Open...";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            // 
             // ModelProgramGraphViewForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -190,5 +199,6 @@ namespace NModel.Visualization
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private ModelProgramGraphView modelProgramGraphView1;
+        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
     }
 }

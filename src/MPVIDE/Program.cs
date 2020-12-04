@@ -17,6 +17,7 @@ namespace MPVIDE
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             ModelProgramGraphViewForm mv = new ModelProgramGraphViewForm("NModel MPV IDE");
+            
             mv.WindowState = FormWindowState.Maximized;
             Application.Run(mv);
         }
