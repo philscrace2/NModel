@@ -31,6 +31,7 @@ namespace NModel.Visualization
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ModelProgramGraphViewForm));
             this.panelForTestMode = new System.Windows.Forms.Panel();
             this.labelIsCorrectView = new System.Windows.Forms.Label();
             this.buttonNo = new System.Windows.Forms.Button();
@@ -42,9 +43,17 @@ namespace NModel.Visualization
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.modelProgramGraphView1 = new NModel.Visualization.ModelProgramGraphView();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.cboPublicMethods = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnBuild = new System.Windows.Forms.ToolStripButton();
             this.panelForTestMode.SuspendLayout();
             this.menuStripMPV.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelForTestMode
@@ -119,14 +128,14 @@ namespace NModel.Visualization
             // saveSettingsToolStripMenuItem
             // 
             this.saveSettingsToolStripMenuItem.Name = "saveSettingsToolStripMenuItem";
-            this.saveSettingsToolStripMenuItem.Size = new System.Drawing.Size(193, 26);
+            this.saveSettingsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.saveSettingsToolStripMenuItem.Text = "Save Settings ...";
             this.saveSettingsToolStripMenuItem.Click += new System.EventHandler(this.saveSettingsToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(193, 26);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click_1);
             // 
@@ -139,6 +148,7 @@ namespace NModel.Visualization
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Controls.Add(this.modelProgramGraphView1, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 31);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
@@ -166,6 +176,57 @@ namespace NModel.Visualization
             this.openToolStripMenuItem.Text = "Open...";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.toolStrip1);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(3, 3);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1162, 41);
+            this.panel1.TabIndex = 1;
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel1,
+            this.cboPublicMethods,
+            this.toolStripSeparator1,
+            this.btnBuild});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(1162, 28);
+            this.toolStrip1.TabIndex = 0;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(115, 25);
+            this.toolStripLabel1.Text = "Public Members";
+            // 
+            // cboPublicMethods
+            // 
+            this.cboPublicMethods.DropDownWidth = 350;
+            this.cboPublicMethods.Name = "cboPublicMethods";
+            this.cboPublicMethods.Size = new System.Drawing.Size(350, 28);
+            this.cboPublicMethods.SelectedIndexChanged += new System.EventHandler(this.CboPublicMethods_SelectedIndexChanged);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 28);
+            // 
+            // btnBuild
+            // 
+            this.btnBuild.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnBuild.Image = ((System.Drawing.Image)(resources.GetObject("btnBuild.Image")));
+            this.btnBuild.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnBuild.Name = "btnBuild";
+            this.btnBuild.Size = new System.Drawing.Size(29, 25);
+            this.btnBuild.Text = "toolStripButton1";
+            this.btnBuild.Click += new System.EventHandler(this.btnBuild_Click);
+            // 
             // ModelProgramGraphViewForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -183,6 +244,10 @@ namespace NModel.Visualization
             this.menuStripMPV.ResumeLayout(false);
             this.menuStripMPV.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -200,5 +265,11 @@ namespace NModel.Visualization
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private ModelProgramGraphView modelProgramGraphView1;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
+        private System.Windows.Forms.ToolStripComboBox cboPublicMethods;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton btnBuild;
     }
 }

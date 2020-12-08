@@ -15,6 +15,7 @@ using System.Reflection;
 using NModel.Execution;
 using NModel.Terms;
 using NModel.Algorithms;
+using System.Linq;
 
 namespace NModel.Visualization
 {
@@ -23,6 +24,12 @@ namespace NModel.Visualization
     /// </summary>
     public partial class ModelProgramGraphViewForm : Form
     {
+        List<string> methodInfos;
+        List<string> argsList;
+        Type mpType;
+        string mpMethodName;
+        string mpClassName;
+        string filePath = string.Empty;
         /// <summary>
         /// Creates a form containing the ModelProgramGraphView component.
         /// With an optional panel if testMode is true 
@@ -85,13 +92,12 @@ namespace NModel.Visualization
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var fileContent = string.Empty;
-            var filePath = string.Empty;
-            List<string> argsList = new List<string>();
+            var fileContent = string.Empty;            
+            argsList = new List<string>();
 
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-                openFileDialog.InitialDirectory = "c:\\";
+                openFileDialog.InitialDirectory = @"C:\source\NModel\bin";
                 openFileDialog.Filter = "NModel dll files (*.dll)|*.dll|All files (*.*)|*.*";
                 openFileDialog.FilterIndex = 2;
                 openFileDialog.RestoreDirectory = true;
@@ -110,9 +116,23 @@ namespace NModel.Visualization
                     }
                 }
             }
-            argsList.Add("/r:" + filePath);
-            argsList.Add("NewsReader.Factory.CreateNewsReader");
-            doSomethingWithTheArgs(argsList.ToArray());
+            argsList.Add(ReferenceFlag);
+
+            mpType = System.Reflection.Assembly.LoadFrom(filePath).GetTypes().ToList<Type>().Find(x => x.Name == "Factory");
+            methodInfos = ReflectionHelper.GetAllPublicMethods(mpType).ToList<string>();
+            mpMethodName = methodInfos[0];
+            argsList.Add(mpType.FullName + "." + mpMethodName);
+
+            this.cboPublicMethods.Items.AddRange(methodInfos.ToArray());
+            this.cboPublicMethods.Text = mpMethodName;
+        }
+
+        public string ReferenceFlag
+        {
+            get 
+            {
+                return "/r:" + filePath;
+            }
         }
 
         private void doSomethingWithTheArgs(string[] args)
@@ -142,9 +162,7 @@ namespace NModel.Visualization
             }
             #endregion
 
-            #region create a model program for each model using the factory method and compose into product
-            string mpMethodName;
-            string mpClassName;
+            #region create a model program for each model using the factory method and compose into product            
             ModelProgram mp = null;
             if (settings.model != null && settings.model.Length > 0)
             {
@@ -152,8 +170,9 @@ namespace NModel.Visualization
                 {
                     throw new ModelProgramUserException("No reference was provided to load models from.");
                 }
-                ReflectionHelper.SplitFullMethodName(settings.model[0], out mpClassName, out mpMethodName);
-                Type mpType = ReflectionHelper.FindType(libs, mpClassName);
+                //.SplitFullMethodName(settings.model[0], out mpClassName, out mpMethodName);
+                //Type mpType = ReflectionHelper.FindType(libs, mpClassName);
+                //methodInfos = ReflectionHelper.GetAllPublicMethods(mpType).ToList<string>();                
                 MethodInfo mpMethod = ReflectionHelper.FindMethod(mpType, mpMethodName, Type.EmptyTypes, typeof(ModelProgram));
                 try
                 {
@@ -309,7 +328,15 @@ namespace NModel.Visualization
 
             //show the view of the product of all the model programs
             this.View.SetModelProgram(mp);
+            this.cboPublicMethods.SelectedIndexChanged += CboPublicMethods_SelectedIndexChanged;
+        }        
 
+        private void CboPublicMethods_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            argsList = new List<string>();
+            argsList.Add(ReferenceFlag);
+            mpMethodName = cboPublicMethods.Text;
+            argsList.Add(mpType.FullName + "." + mpMethodName);
         }
 
         private static Set<Symbol> GetActionSymbols(Sequence<Sequence<CompoundTerm>> testcases)
@@ -319,6 +346,11 @@ namespace NModel.Visualization
                 foreach (CompoundTerm action in testcase)
                     symbs = symbs.Add(action.Symbol);
             return symbs;
+        }
+
+        private void btnBuild_Click(object sender, EventArgs e)
+        {
+            doSomethingWithTheArgs(argsList.ToArray());
         }
     }
 }

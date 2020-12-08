@@ -125,6 +125,26 @@ namespace NModel.Utilities
             return (attrs != null && attrs.Length > 0);
         }
 
+        public static IEnumerable<string> GetAllPublicMethods(Type t)
+        {
+            List<string> systemMethods = new List<string>() { "Equals", "GetHashCode", "GetType", "ToString" };
+            string type_fullname = t.FullName;
+            List<string> listMi = new List<string>();
+            foreach (MethodInfo methodInfo in t.GetMethods())
+            {
+                if (systemMethods.Contains(methodInfo.Name))
+                {
+                    continue;
+                }
+                else
+                {
+                    listMi.Add(methodInfo.Name);
+                }             
+
+            }
+            return listMi;
+        }
+
 
         #region Reflection Helpers
 
