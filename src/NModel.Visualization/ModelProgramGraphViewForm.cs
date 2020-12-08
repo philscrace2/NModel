@@ -352,5 +352,10 @@ namespace NModel.Visualization
         {
             doSomethingWithTheArgs(argsList.ToArray());
         }
+
+        private void mnuItemViewModelProgram_Click(object sender, EventArgs e)
+        {
+            btnBuild.PerformClick();
+        }
     }
 }
