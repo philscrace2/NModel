@@ -119,7 +119,7 @@ namespace NModel.Conformance
                 }
 
                 // Metrics 
-                AddMetricsToEndOfLog();
+                //AddMetricsToEndOfLog();
             }
             catch (Exception e)
             {

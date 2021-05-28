@@ -178,7 +178,7 @@ namespace MDPAlgos
             base.DoAction(action);
             int targetHash = this.currState.GetHashCode();
            
-            if (this.ObservableActionSymbols.Contains(action.FunctionSymbol1))
+            if (this.ObservableActionSymbols.Contains(action.Symbol))
                 AddPassiveEdge(srcHash, targetHash);
             else
                 AddActiveEdge(srcHash, targetHash);

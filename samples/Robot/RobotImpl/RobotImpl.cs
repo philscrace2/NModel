@@ -7,7 +7,7 @@ using NModel;
 
 namespace RobotImpl1
 {
-    class RobotImpl
+    public class RobotImpl
     {
         internal Set<int> aliveRobots ;
         internal int maxId ;
@@ -76,35 +76,33 @@ namespace RobotImpl1
         RobotImpl impl = new RobotImpl();
         public CompoundTerm DoAction(CompoundTerm action)
         {
-            System.Console.WriteLine("robot" + action.Name + action.Arguments[0].ToString());
+            System.Console.WriteLine("robots" + " " +  "action.name: " + action.Name + " " + "action arguments " + action.Arguments[0].ToString());
+            Sequence<Term> terms = action.Arguments;
+            Term term = terms[0];
+            System.Console.WriteLine(int.Parse(term.Arguments[0].ToString()));
             int id;
-            switch (action.FunctionSymbol.ToString())
+            switch (action.Name)
             {                 
-                case ("CreateRobot"):
-                    id = (int)((CompoundTerm)action[0])[0];
-                    impl.AddRobot(id);
+                case ("CreateRobot"):                    
+                    impl.AddRobot(int.Parse(term.Arguments[0].ToString()));
                     return null;
 
-                case ("DeleteRobot"):
-                    id = (int)((CompoundTerm)action[0])[0];
-                    impl.KillRobot(id);
+                case ("DeleteRobot"):                    
+                    impl.KillRobot(int.Parse(term.Arguments[0].ToString()));
                     return null;
 
-                case ("Search"):
-                    id = (int)((CompoundTerm)action[0])[0];
-                    impl.Search(id);
-                    return impl.Recharge(id);
+                case ("Search"):                    
+                    impl.Search(int.Parse(term.Arguments[0].ToString()));
+                    return impl.Recharge(int.Parse(term.Arguments[0].ToString()));
                     
-                case("Wait"):
-                    id = (int)((CompoundTerm)action[0])[0];
-                    impl.Wait(id);
+                case("Wait"):                    
+                    impl.Wait(int.Parse(term.Arguments[0].ToString()));
                     return null;
 
-               /* case("Recharge"):
-                    id = (int)((CompoundTerm)action[0])[0];
-                    impl.Recharge(id);
+                case("Recharge"):                         
+                    impl.Recharge(int.Parse(term.Arguments[0].ToString()));
                     return null;
-*/
+
                 case("CheckState"):
                     id = (int)action[0];
                     if (id != impl.maxId)
