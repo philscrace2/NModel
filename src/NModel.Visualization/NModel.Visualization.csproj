@@ -71,17 +71,17 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Msagl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=640c57aa40e7ae7d, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.Msagl, Version=0.0.0.0, Culture=neutral, PublicKeyToken=6baa2c1345e83b6e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\automatic-graph-layout\GraphLayout\tools\GraphViewerGDI\bin\Debug\Microsoft.Msagl.dll</HintPath>
+      <HintPath>..\..\..\..\Users\phil.scrace\Downloads\OneDrive-2025-02-13\Microsoft.Msagl.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Msagl.Drawing, Version=3.0.0.0, Culture=neutral, PublicKeyToken=8a3d7c21d5fa1306, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.Msagl.Drawing, Version=0.0.0.0, Culture=neutral, PublicKeyToken=6baa2c1345e83b6e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\automatic-graph-layout\GraphLayout\tools\GraphViewerGDI\bin\Debug\Microsoft.Msagl.Drawing.dll</HintPath>
+      <HintPath>..\..\..\..\Users\phil.scrace\Downloads\OneDrive-2025-02-13\Microsoft.Msagl.Drawing.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Msagl.GraphViewerGdi, Version=3.0.0.0, Culture=neutral, PublicKeyToken=fffc27ea4058b3a1, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.Msagl.GraphViewerGdi, Version=0.0.0.0, Culture=neutral, PublicKeyToken=6baa2c1345e83b6e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\automatic-graph-layout\GraphLayout\tools\GraphViewerGDI\bin\Debug\Microsoft.Msagl.GraphViewerGdi.dll</HintPath>
+      <HintPath>..\..\..\..\Users\phil.scrace\Downloads\OneDrive-2025-02-13\Microsoft.Msagl.GraphViewerGdi.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
@@ -149,6 +149,7 @@
   <ItemGroup>
     <None Include="Migrated rules for NModel.Visualization.ruleset" />
     <None Include="Modeling.snk" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NModel\NModel.csproj">

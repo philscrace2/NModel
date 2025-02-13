@@ -540,7 +540,7 @@ namespace NModel.Visualization
             this.viewer.Size = new System.Drawing.Size(485, 420);
             this.viewer.TabIndex = 7;
             this.viewer.ZoomF = 1;
-            this.viewer.ZoomFraction = 0.5;
+            //this.viewer.ZoomFraction = 0.5;
             this.viewer.ZoomWindowThreshold = 0.05;
             this.viewer.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.viewer_MouseWheel);
             this.viewer.Load += new System.EventHandler(this.viewer_Load);
