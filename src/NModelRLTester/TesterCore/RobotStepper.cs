@@ -21,14 +21,14 @@ namespace NModelRLTester.TesterCore
 
         public RobotStepper()
         {
-            model = LibraryModelProgram.Create(typeof(RobotModel));
+            //model = LibraryModelProgram.Create(typeof(RobotModel));
             robot = new RobotModel();
             Reset();
         }
 
         public void Reset()
         {
-            currentState = model.InitialState;
+            //currentState = model.InitialState;
             robots = new Dictionary<int, Robot>();
         }
 
@@ -117,7 +117,7 @@ namespace NModelRLTester.TesterCore
 
         bool IStepper.Reset()
         {
-            currentState = model.InitialState;
+            //currentState = model.InitialState;
             robots = new Dictionary<int, Robot>();
 
             return true;
