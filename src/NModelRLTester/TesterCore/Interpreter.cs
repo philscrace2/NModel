@@ -4,32 +4,32 @@ using System.Collections.Generic;
 
 namespace NModelRLTester.TesterCore
 {
-    public class Interpreter
-    {
-        private readonly ModelProgram modelProgram;
-        private IState currentState;
+    //public class Interpreter
+    //{
+    //    private readonly ModelProgram modelProgram;
+    //    private IState currentState;
 
-        public Interpreter(ModelProgram mp)
-        {
-            this.modelProgram = mp;
-            Reset();
-        }
+    //    public Interpreter(ModelProgram mp)
+    //    {
+    //        this.modelProgram = mp;
+    //        Reset();
+    //    }
 
-        public void Reset()
-        {
-            currentState = modelProgram.InitialState;
-        }
+    //    public void Reset()
+    //    {
+    //        currentState = modelProgram.InitialState;
+    //    }
 
-        public IEnumerable<CompoundTerm> GetEnabledActions()
-        {
-            return modelProgram.GetEnabledActions();
-        }
+    //    public IEnumerable<CompoundTerm> GetEnabledActions()
+    //    {
+    //        return modelProgram.GetEnabledActions();
+    //    }
 
-        public void DoStep(CompoundTerm action)
-        {
-            // currentState =  Evaluator.Apply(currentState, action);
+    //    public void DoStep(CompoundTerm action)
+    //    {
+    //        // currentState =  Evaluator.Apply(currentState, action);
 
-            
-        }
-    }
+
+    //    }
+    //}
 }

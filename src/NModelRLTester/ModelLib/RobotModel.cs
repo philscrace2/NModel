@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using NModel;
 using NModel.Attributes;
 using NModel.Execution;
@@ -23,49 +24,72 @@ namespace NModelRLTester.ModelLib
         }
     }
 
-    public class Robot : EnumeratedInstance
+    public class Robot
     {
         public int Power { get; set; } = 0;
         public int Reward { get; set; } = 0;
+        public int Id { get; set; } = 0;
 
-        public Robot() : base() { }
-
-        public override string ToString()
+        public Robot()
         {
-            return $"Robot#{this.Identity}: Power={Power}, Reward={Reward}";
+
         }
+
+        //public override string ToString()
+        //{
+        //    return $"Robot#{this.Identity}: Power={Power}, Reward={Reward}";
+        //}
     }
 
     public class RobotModel
     {
-        static int maxNoOfRobots = 5;
-
-        [Action]
-        public static void Start(int robotId)
+        public void Start(int id, Dictionary<int, Robot> robots)
         {
-            // guard: not already started
-            // update: create new robot
+            if (!robots.ContainsKey(id))
+                robots[id] = new Robot();
         }
 
         [Action]
-        public static void Search(int robotId)
+        public void Search(int id, Dictionary<int, Robot> robots)
         {
-            // guard: robot.power > 30
-            // update: power -= 30, reward += 2
+            if (CanSearch(id, robots))
+            {
+                robots[id].Power -= 30;
+                robots[id].Reward += 2;
+            }
         }
 
         [Action]
-        public static void Wait(int robotId)
+        public void Wait(int id, Dictionary<int, Robot> robots)
         {
-            // guard: robot.power <= 50
-            // update: reward += 1
+            if (CanWait(id, robots))
+            {
+                robots[id].Reward += 1;
+            }
         }
 
         [Action]
-        public static void Recharge(int robotId)
+        public void Recharge(int id, Dictionary<int, Robot> robots)
         {
-            // guard: robot.power < 100
-            // update: power = 100
+            if (CanRecharge(id, robots))
+            {
+                robots[id].Power = 100;
+            }
+        }
+
+        public bool CanSearch(int id, Dictionary<int, Robot> robots)
+        {
+            return robots.ContainsKey(id) && robots[id].Power > 30;
+        }
+
+        public bool CanWait(int id, Dictionary<int, Robot> robots)
+        {
+            return robots.ContainsKey(id) && robots[id].Power <= 50;
+        }
+
+        public bool CanRecharge(int id, Dictionary<int, Robot> robots)
+        {
+            return robots.ContainsKey(id) && robots[id].Power < 100;
         }
     }
 }

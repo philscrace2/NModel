@@ -10,7 +10,7 @@ using NModel.Terms;
 namespace NModel.Execution
 {
     /// <summary>
-    /// The interface to a model program. A model program is an abstraction of a program 
+    /// The interface to a model program. A model program is an abstraction of a program
     /// in terms of a transition system. States of the program and transitions between
     /// them are explicit.
     /// </summary>
@@ -30,7 +30,7 @@ namespace NModel.Execution
         /// Number of arguments associated with action symbol <paramref name="actionSymbol"/>
         /// </summary>
         /// <param name="actionSymbol">A symbol naming an action of this model program.</param>
-        /// <returns>The number of arguments required in a <see cref="Term"/> invoking 
+        /// <returns>The number of arguments required in a <see cref="Term"/> invoking
         /// this <paramref name="actionSymbol"/>. The value returned will be greater than or equal to zero.</returns>
         /// <remarks>
         /// Every action symbol has a fixed number of parameters associated with it. The number of parameters
@@ -77,7 +77,7 @@ namespace NModel.Execution
 
         /// <summary>
         /// Model program that provides the ith location value of the state signature of this model program.
-        /// The result will be this model program, except under composition, when the result will the be 
+        /// The result will be this model program, except under composition, when the result will the be
         /// a leaf of the composition tree.
         /// <br><c>requires 0 &lt;= i &amp;&amp; i &lt; this.LocationValueCount;</c></br>
         /// </summary>
@@ -86,7 +86,7 @@ namespace NModel.Execution
         public abstract string LocationValueModelName(int i);
 
         /// <summary>
-        /// Symbol denoting the sort (abstract type) of the ith location value in the state signature 
+        /// Symbol denoting the sort (abstract type) of the ith location value in the state signature
         /// of this model program
         /// </summary>
         /// <param name="i"></param>
@@ -107,7 +107,7 @@ namespace NModel.Execution
 
         #region Enabledness of actions and parameter generation
         /// <summary>
-        /// Checks whether a given action is potentially enabled 
+        /// Checks whether a given action is potentially enabled
         /// in this state.
         /// <br><c>requires state != null;</c></br>
         /// <br>requires state.ModelProgram == this; </br>
@@ -123,10 +123,10 @@ namespace NModel.Execution
         /// <returns></returns>
         public abstract Set<Symbol> PotentiallyEnabledActionSymbols(IState state);
 
-  
+
         /// <summary>
         /// Checks if a ground label is enabled in this control state with respect to a data state
-        /// 
+        ///
         /// requires: data != null
         /// requires: label != null and label.IsGround
         /// </summary>
@@ -137,7 +137,7 @@ namespace NModel.Execution
         /// </summary>
         /// <param name="state">The state in which the </param>
         /// <param name="action">The action whose enabling conditions will queried</param>
-        /// <param name="returnFailures">If <c>true</c>, enabling conditions that fail in state 
+        /// <param name="returnFailures">If <c>true</c>, enabling conditions that fail in state
         /// <paramref name="state"/> will be returned. If <c>false</c>, all enabling conditions
         /// that are satisfied will be returned.</param>
         /// <returns>Description strings for the enabling conditions of action <paramref name="action"/></returns>
@@ -191,12 +191,12 @@ namespace NModel.Execution
         /// <param name="action">The action to be invoked</param>
         /// <param name="transitionPropertyNames">The names of meta-properties to be collected
         /// during the calculation of the step.</param>
-        /// <param name="transitionProperties">Output parameter that will contain a 
+        /// <param name="transitionProperties">Output parameter that will contain a
         /// map of property names to property values. Each property value multiset of
         /// terms. For example, the property value might be the value of a Boolean function
         /// that controls state filtering. Or, it might correspond to the "coverage" of the model that results from this
-        /// step. In this case, the value might denote the line numbers or blocks of the 
-        /// model program that were exercised in this step, or a projection of the state 
+        /// step. In this case, the value might denote the line numbers or blocks of the
+        /// model program that were exercised in this step, or a projection of the state
         /// space or a reference to section numbers of a requirements document to indicate
         /// that the functionality defined by that section was exercised.</param>
         /// <returns>The state that results from the invocation of <paramref name="action"/>
@@ -210,7 +210,7 @@ namespace NModel.Execution
 
         #region Halting condition
         /// <summary>
-        /// The accepting status of a state of this model program. Valid runs of 
+        /// The accepting status of a state of this model program. Valid runs of
         /// a model program must terminate in an accepting state.
         /// <br>requires state != null;</br>
         /// <br>requires state.ModelProgram == this; </br>
@@ -227,7 +227,7 @@ namespace NModel.Execution
         /// failure to satisfy the state invariants indicates a modeling error.
         /// </summary>
         /// <param name="state">The state</param>
-        /// <returns>True if <paramref name="state"/>satisfies all state invariants of 
+        /// <returns>True if <paramref name="state"/>satisfies all state invariants of
         /// this model program; false otherwise.</returns>
         public abstract bool SatisfiesStateInvariant(IState state);
         #endregion
@@ -235,11 +235,11 @@ namespace NModel.Execution
         #region State filter
         /// <summary>
         /// Boolean value indicating whether all state filter predicates
-        /// defined by this model program are satisfied by <paramref name="state"/>. 
+        /// defined by this model program are satisfied by <paramref name="state"/>.
         /// States not satisfying a state filter are excluded during exploration.
         /// </summary>
         /// <param name="state">The state</param>
-        /// <returns>True if <paramref name="state"/>satisfies all state filters of 
+        /// <returns>True if <paramref name="state"/>satisfies all state filters of
         /// this model program; false otherwise.</returns>
         public abstract bool SatisfiesStateFilter(IState state);
         #endregion
@@ -262,10 +262,7 @@ namespace NModel.Execution
             throw new InvalidOperationException("IsFieldStatic is not implemented in the current context.");
         }
 
-        public IEnumerable<CompoundTerm> GetEnabledActions()
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 
     /// <summary>

@@ -13,8 +13,8 @@ namespace NModelRLTester.TesterCore
         private ModelProgram model;
         private IState currentState;
         RobotModel robot;
+        int maxRobotId = 5;
         private Dictionary<int, Robot> robots;
-        private readonly Interpreter interpreter;
 
         public IEnumerable<CompoundTerm> _enabledControllables;
         public IEnumerable<CompoundTerm> _enabledObservables;
@@ -23,7 +23,6 @@ namespace NModelRLTester.TesterCore
         {
             model = LibraryModelProgram.Create(typeof(RobotModel));
             robot = new RobotModel();
-            interpreter = new Interpreter(model);
             Reset();
         }
 
@@ -41,17 +40,17 @@ namespace NModelRLTester.TesterCore
             switch (actionName)
             {
                 case "Start":
-                    RobotModel.Start((int)args[0]);
+                    robot.Start((int)args[0], robots);
                     //model.Start((int)args[0], robots);
                     break;
                 case "Search":
-                    RobotModel.Search((int)args[0]);
+                    robot.Search((int)args[0], robots);
                     break;
                 case "Wait":
-                    RobotModel.Wait((int)args[0]);
+                    robot.Wait((int)args[0], robots);
                     break;
                 case "Recharge":
-                    RobotModel.Recharge((int)args[0]);
+                    robot.Recharge((int)args[0], robots);
                     break;
                 default:
                     throw new InvalidOperationException($"Unknown action: {actionName}");
@@ -59,7 +58,30 @@ namespace NModelRLTester.TesterCore
         }
 
 
-        public IEnumerable<CompoundTerm> GetEnabledActions() => interpreter.GetEnabledActions();
+        public IEnumerable<CompoundTerm> GetEnabledActions()
+        {
+            foreach (var robot in robots.Values)
+            {
+                int id = robot.Id;
+
+                // Manually evaluate guards (just like you would in a model program)
+                if (robot.Power > 30) // Search guard
+                    yield return new CompoundTerm(new Symbol("Search"), new Literal(id));
+
+                if (robot.Power <= 50) // Wait guard
+                    yield return new CompoundTerm(new Symbol("Wait"), new Literal(id));
+
+                if (robot.Power < 100) // Recharge guard
+                    yield return new CompoundTerm(new Symbol("Recharge"), new Literal(id));
+            }
+
+            // Optional: Allow Start for uninitialized robots
+            for (int id = 0; id < maxRobotId; id++)
+            {
+                if (!robots.ContainsKey(id))
+                    yield return new CompoundTerm(new Symbol("Start"), new Literal(id));
+            }
+        }
 
         public IEnumerable<CompoundTerm> EnabledControllables
         {
@@ -77,9 +99,10 @@ namespace NModelRLTester.TesterCore
 
         public IComparable GetAbstractState(CompoundTerm action)
         {
-            // You'll need to extract robot state via model state here, or fake it
-            RobotModel.Start(0);
-            return (-1, -1); // Stub
+            int id = (int)((Literal)action.Arguments[0]).Value;
+            if (robots.TryGetValue(id, out var r))
+                return (r.Power, r.Reward);
+            return (-1, -1); // Unknown robot, fallback
         }
 
         public IComparable GetAbstractAction(CompoundTerm action) => action.Name;
@@ -94,7 +117,12 @@ namespace NModelRLTester.TesterCore
 
         bool IStepper.Reset()
         {
-            throw new NotImplementedException();
+            currentState = model.InitialState;
+            robots = new Dictionary<int, Robot>();
+
+            return true;
         }
+
+
     }
 }
