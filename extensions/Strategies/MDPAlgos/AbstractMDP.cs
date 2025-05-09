@@ -16,7 +16,7 @@ namespace MDPAlgos
     {
         internal string property;
         internal  BinaryDecisionTree trueEdge; // subtree where the property is true
-        internal  BinaryDecisionTree falseEdge; // subtree where the property is false 
+        internal  BinaryDecisionTree falseEdge; // subtree where the property is false
         internal double maxValue;
         internal double minValue;
         internal Set<int> states;
@@ -85,7 +85,7 @@ namespace MDPAlgos
             Set<int> s2 = states.Difference(enabledStates);
             if (this.trueEdge != null) this.trueEdge.Refine(prop,s1);
             if (this.falseEdge != null) this.falseEdge.Refine(prop,s2);
-            
+
             if (this.trueEdge == null && this.falseEdge == null)
             {
                 //if (!s1.IsEmpty)
@@ -140,12 +140,12 @@ namespace MDPAlgos
                 return this;
             }
 
-        }   
+        }
     }
 
     public class MDPNewAbstractStrategy : NModel.Conformance.Strategy
     {
-        //sequence of requirment properties 
+        //sequence of requirment properties
         internal static Sequence<string> requirementProperties;
         //given a requirement the map provides the set of states where it satisfies
         internal static Map<string, Set<int>> requireEnabledStateMap;
@@ -173,17 +173,17 @@ namespace MDPAlgos
         public override void DoAction(Action action)
         {
             System.Console.WriteLine("Action " + action.ToString());
-           
+
             int srcHash = this.currState.GetHashCode();
             base.DoAction(action);
             int targetHash = this.currState.GetHashCode();
-           
-            if (this.ObservableActionSymbols.Contains(action.FunctionSymbol1))
+
+            if (this.ObservableActionSymbols.Contains(action.Symbol))
                 AddPassiveEdge(srcHash, targetHash);
             else
                 AddActiveEdge(srcHash, targetHash);
             doValueIteration(bdt);
-            
+
         }
         private void AddActiveEdge(int srcHash, int targetHash)
         {
@@ -206,10 +206,9 @@ namespace MDPAlgos
             List<double> maxV = bdt.ReturnValue(true);
             List<double> minV = bdt.ReturnValue(false);
             List<Set<int>> abstractMap = bdt.ReturnLeaves();
-            double tmp; 
+            double tmp;
             int maxvcount = maxV.Count;
-            
-                    
+
             double diff = 1.0;
             double epsilon = 0.1;
             while (diff > epsilon)
@@ -224,8 +223,8 @@ namespace MDPAlgos
                     diff = Math.Max(diff, Math.Abs(tmp - minV[k]));
                     minV[k] = tmp;
                 }
-            }        
-            
+            }
+
             for (int k = 0; k < maxvcount; k++)
             {
                 System.Console.WriteLine("maxv "+ maxV[k]+ " minv "+ minV[k]);
@@ -248,7 +247,7 @@ namespace MDPAlgos
             {
                 diff = 0.0;
                 foreach (int stateHash in valueKeys)
-                {                    
+                {
                     if (activeEdges.ContainsKey(stateHash))
                     {
                         newv = Math.Min(value[stateHash], alpha * findMax(activeEdges[stateHash],value,k,abstractMap,absValue));
@@ -260,7 +259,7 @@ namespace MDPAlgos
                         newv = Math.Min(value[stateHash], alpha * findExpectedValue(passiveEdges[stateHash],value,k,abstractMap,absValue));
                         diff = Math.Max(diff,Math.Abs(newv - value[stateHash]));
                         value[stateHash] = newv;
-                    }                    
+                    }
                 }
             }
             Set<double> vals = new Set<double>(value.Values);
@@ -275,12 +274,12 @@ namespace MDPAlgos
                 if(abstractMap[k].Contains(t))
                     sum = sum + value[t];
                 else
-                { 
+                {
                     targetAbsId = findAbstractId(t, abstractMap);
                     sum = sum + (targetAbsId==-1? 1:absValue[targetAbsId]);
                 }
             }
-            return (sum / (double)bag.Count);            
+            return (sum / (double)bag.Count);
         }
 
         private double findMax(Set<int> set, Dictionary<int,double> value, int k, List<Set<int>> abstractMap, List<double> absValue)
@@ -292,18 +291,18 @@ namespace MDPAlgos
                 if(abstractMap[k].Contains(t))
                     max = Math.Max(max,value[t]);
                 else
-                { 
+                {
                     targetAbsId = findAbstractId(t, abstractMap);
                     max = Math.Max(max,(targetAbsId==-1? 1:absValue[targetAbsId]));
-                }               
+                }
             }
-            return max;     
-        }           
+            return max;
+        }
 
         private int findAbstractId(int targetStateId, List<Set<int>> abstractMap)
         {
             //System.Console.WriteLine(targetStateId + " "+ abstractMap.ToString());
-            
+
             for (int k=0; k< abstractMap.Count;k++)
             {
                 if (abstractMap[k].Contains(targetStateId))
@@ -313,8 +312,8 @@ namespace MDPAlgos
         }
        #endregion
 
-              
-        
+
+
 
         /// <summary>
         /// Select an action that is enabled in the current state
@@ -335,7 +334,7 @@ namespace MDPAlgos
             if (actions.IsEmpty)
                 return null;
 
-            Action a = ChooseAction(actions, this.CurrentState); //choose a tester action 
+            Action a = ChooseAction(actions, this.CurrentState); //choose a tester action
             //System.Console.WriteLine("Chosen Action " + a.ToString());
             return a;
         }
@@ -362,7 +361,7 @@ namespace MDPAlgos
                 targetAbsId = findAbstractId(tState, abstractMap);
                 if (targetAbsId == -1)
                 {
-                    newStateActs = newStateActs.Add(a); 
+                    newStateActs = newStateActs.Add(a);
                 }
                 else
                 {
@@ -370,7 +369,7 @@ namespace MDPAlgos
                     Pair<int, Action> np = new Pair<int, Action>(sum, a);
                     sumTarget.Add(sum, targetAbsId);
                     cumulActSum = cumulActSum.AddLast(np);
-                }                    
+                }
             }
             if (!newStateActs.IsEmpty)
             {
@@ -380,7 +379,7 @@ namespace MDPAlgos
             }
             else
             {
-                
+
                 Random rndNumbers = new Random();
                 int rndNumber = rndNumbers.Next(sum);
                 System.Console.WriteLine(sum + " " + rndNumber);
@@ -437,10 +436,10 @@ namespace MDPAlgos
                     bdt = bdt.Refine(s1, requireEnabledStateMap[s1]);
                     bdt.PrintTree(0);
                 }
-            }            
+            }
         }
 
-      
+
 
         #endregion
 
@@ -453,7 +452,7 @@ namespace MDPAlgos
         /// <param name="coverage">given coverage point names (may be null)</param>
         public static MDPNewAbstractStrategy CreateMDPNewAbstractStrategy(ModelProgram modelProgram, string[]/*?*/ coverage)
         {
-            //return new MDPStrategy(modelProgram,new Set<string>(coverage));      
+            //return new MDPStrategy(modelProgram,new Set<string>(coverage));
             return new MDPNewAbstractStrategy(modelProgram);
         }
     }

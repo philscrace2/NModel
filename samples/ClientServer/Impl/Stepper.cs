@@ -6,7 +6,7 @@ namespace ClientServerImpl
 {
     public class Stepper: IStepper
     {
-	const int port = 8000;
+	const int port = 8001;
 	const string host = "127.0.0.1"; // localhost
 
 	Server s = new Server();
@@ -18,7 +18,7 @@ namespace ClientServerImpl
 	    {
 	        case("Tests"): return null; // first action in test seq.
 
-	        case("ServerSocket"): 
+	        case("ServerSocket"):
 		    s.Socket(); return null;
 	        case("ServerBind"):
 		    s.Bind(host,port); return null;
@@ -30,7 +30,7 @@ namespace ClientServerImpl
                     s.Receive(); return null;
      	        case("ServerSend"):
 		    // s.Send sends a double, not a string!
-                    s.Send((double)((Literal) action.Arguments[0]).Value); 
+                    s.Send((double)((Literal) action.Arguments[0]).Value);
 		    return null;
 	        case("ServerCloseConnection"):
 		    s.CloseConnection(); return null;
@@ -56,7 +56,7 @@ namespace ClientServerImpl
 
         public void Reset()
         {
-	    s = new Server(); 
+	    s = new Server();
 	    c = new Client();
         }
 

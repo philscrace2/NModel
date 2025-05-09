@@ -54,7 +54,7 @@ namespace MDPAlgos
             {
                 v[targetHash] = 1.0;
             }
-            if (this.ObservableActionSymbols.Contains(action.FunctionSymbol1))
+            if (this.ObservableActionSymbols.Contains(action.Symbol))
             {
                 AddPassiveEdge(srcHash, targetHash);
                 DoValueIteration(); // do value iteration when the probabilities change

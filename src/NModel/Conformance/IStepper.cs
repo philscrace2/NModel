@@ -21,11 +21,13 @@ namespace NModel.Conformance
     /// </summary>
     public interface IStepper
     {
+        IEnumerable<CompoundTerm> EnabledObservables { get; set; }
+        IEnumerable<CompoundTerm> EnabledControllables { get; set; }
 
         /// <summary>
         /// Make a step according to the given action, the current state
         /// becomes the target state of this transition.
-        /// If the action is not enabled an exception is thrown and the 
+        /// If the action is not enabled an exception is thrown and the
         /// resulting state is undefined.
         /// An action on null may be returned.
         /// </summary>
@@ -35,11 +37,11 @@ namespace NModel.Conformance
 
         /// <summary>
         /// Return to the initial state.
-        /// If Reset is not enabled in the current state, an exception is thrown 
+        /// If Reset is not enabled in the current state, an exception is thrown
         /// and the resulting state is undefined
         /// and is thus not guaranteed to be the initial state
         /// </summary>
-        void Reset();
+        bool Reset();
     }
 
 
@@ -49,7 +51,7 @@ namespace NModel.Conformance
     public interface IAsyncStepper : IStepper
     {
         /// <summary>
-        /// Sets the observer callback. The observer is called by the IUT each time an 
+        /// Sets the observer callback. The observer is called by the IUT each time an
         /// observable action happens.
         /// </summary>
         /// <param name="observer">the provided observer</param>

@@ -21,7 +21,7 @@ namespace NModel.Tests
         {
             FSM fa = CreateSampleFA();
 
-            Sequence<Sequence<CompoundTerm>> testCases = 
+            Sequence<Sequence<CompoundTerm>> testCases =
                 FsmTraversals.GenerateTestSequences(fa);
 
             Bag<Sequence<CompoundTerm>> expectedTestCases =
@@ -62,6 +62,12 @@ namespace NModel.Tests
                     new Transition(states[3], a, states[4]));
 
             return new FSM(states[0], faStates, transitions, accStates, vocab);
+        }
+
+        [Test]
+        public void DoesThisRunTest()
+        {
+            Assert.Pass();
         }
     }
 }

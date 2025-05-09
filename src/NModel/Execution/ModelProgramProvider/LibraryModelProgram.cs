@@ -32,6 +32,8 @@ namespace NModel.Execution
         /// Finish action
         /// </summary>
         Finish,
+
+        Observe,
     }
 
     /// <summary>
@@ -42,7 +44,7 @@ namespace NModel.Execution
         #region Fields
 
         /// <summary>
-        /// Model name given by attribute. A model is a collection of class declarations 
+        /// Model name given by attribute. A model is a collection of class declarations
         /// have the same the same [Model] attribute.
         /// </summary>
         readonly string name;
@@ -54,7 +56,7 @@ namespace NModel.Execution
 
         /// <summary>
         /// Runtime environment (or context) that allows terms to be interpreted with respect
-        /// to this model program. For example, the context shows what type corresponds to a given 
+        /// to this model program. For example, the context shows what type corresponds to a given
         /// model sort.
         /// </summary>
         InterpretationContext context;
@@ -66,7 +68,7 @@ namespace NModel.Execution
         bool stateChangedPredicate = false;
 
         /// <summary>
-        /// The most recent argument to "SetState". 
+        /// The most recent argument to "SetState".
         /// </summary>
         IState/*?*/ currentState;
 
@@ -82,26 +84,26 @@ namespace NModel.Execution
         static readonly Term readyControlMode = AbstractValue.GetTerm(Sequence<CompoundTerm>.EmptySequence);
 
         /// <summary>
-        /// The .NET fields that form the basis of states of this model program. The ith state variable 
+        /// The .NET fields that form the basis of states of this model program. The ith state variable
         /// corresponds to the ith instance field
         /// </summary>
         readonly Field[] stateFields;
 
         /// <summary>
-        /// The name of each location of state. This matches positionally with stateFields 
-        /// and stateVariables. This is a cache-- it is always equal to the names found in 
+        /// The name of each location of state. This matches positionally with stateFields
+        /// and stateVariables. This is a cache-- it is always equal to the names found in
         /// stateVariables.
         /// </summary>
         readonly ValueArray<string> locationNames;
 
         /// <summary>
-        /// Table of location names and sorts that make up state. 
+        /// Table of location names and sorts that make up state.
         /// </summary>
         readonly StateVariable[] stateVariables;
 
         /// <summary>
-        /// Table of actions to .NET reflection info. All actions (Start, Atomic and Finish) 
-        /// are representated in the table. 
+        /// Table of actions to .NET reflection info. All actions (Start, Atomic and Finish)
+        /// are representated in the table.
         /// </summary>
         readonly internal Dictionary<Symbol, ActionInfo> actionInfoMap;
 
@@ -178,29 +180,29 @@ namespace NModel.Execution
         /// Create an instance of LibraryModelProgram for a given assembly
         /// </summary>
         /// <param name="modelAssemblyFile">The full path to the assembly file.</param>
-        /// <param name="modelName">Name of the model namespace to be loaded. 
+        /// <param name="modelName">Name of the model namespace to be loaded.
         /// Only classes in the model namespace will be loaded.</param>
         /// <param name="featureNames">The names of features to be loaded. If null, all
         /// features will be loaded for the given modelName. See <see cref="FeatureAttribute"/>.</param>
         /// <exception cref="ModelProgramUserException">Thrown if there is a usage error in the given assembly.</exception>
         public LibraryModelProgram(string modelAssemblyFile, string/*?*/ modelName, Set<string>/*?*/ featureNames) :
              this(Assembly.LoadFrom(modelAssemblyFile), modelName, featureNames) { }
-       
+
         /// <summary>
         /// Create an instance of LibraryModelProgram for a given assembly
         /// </summary>
         /// <param name="modelAssemblyFile">The full path to the assembly file.</param>
-        /// <param name="modelName">Name of the model namespace to be loaded. 
+        /// <param name="modelName">Name of the model namespace to be loaded.
         /// Only classes in the model namespace will be loaded.</param>
         /// <exception cref="ModelProgramUserException">Thrown if there is a usage error in the given assembly.</exception>
-        public LibraryModelProgram(string modelAssemblyFile, string/*?*/ modelName) : 
+        public LibraryModelProgram(string modelAssemblyFile, string/*?*/ modelName) :
             this(Assembly.LoadFrom(modelAssemblyFile), modelName, null) {}
 
         /// <summary>
         /// Create an instance of LibraryModelProgram for a given assembly
         /// </summary>
         /// <param name="modAssembly">Loaded assembly</param>
-        /// <param name="modelName">Name of the model namespace to be loaded. 
+        /// <param name="modelName">Name of the model namespace to be loaded.
         /// Only classes in the model namespace will be loaded.</param>
         /// <exception cref="ModelProgramUserException">Thrown if there is a usage error in the given assembly.</exception>
         public LibraryModelProgram(Assembly modAssembly, string modelName)
@@ -211,7 +213,7 @@ namespace NModel.Execution
         /// Create an instance of LibraryModelProgram for a given assembly
         /// </summary>
         /// <param name="modAssembly">Loaded assembly</param>
-        /// <param name="modelName">Name of the model namespace to be loaded. 
+        /// <param name="modelName">Name of the model namespace to be loaded.
         /// Only classes in the model namespace will be loaded.</param>
         /// <param name="featureNames">The names of features to be loaded. If null, all
         /// features will be loaded for the given modelName. See <see cref="FeatureAttribute"/>.</param>
@@ -221,7 +223,7 @@ namespace NModel.Execution
             if (string.IsNullOrEmpty(modelName))
                 throw new ArgumentNullException("modelName");
 
-            InterpretationContext context = (null == featureNames ? 
+            InterpretationContext context = (null == featureNames ?
                 new InterpretationContext() :
                 new InterpretationContext(featureNames));
 
@@ -284,7 +286,7 @@ namespace NModel.Execution
                                     if (methodInfo.DeclaringType.BaseType == null ||
                                         methodInfo.DeclaringType.BaseType.Name != "LabeledInstance`1" ||
                                         methodInfo.DeclaringType.BaseType.GetGenericArguments()[0] != methodInfo.DeclaringType)
-                                        throw new ModelProgramUserException("Since the action method '" + methodInfo.Name + "' is non-static, the class '" + methodInfo.DeclaringType.Name + "' must directly inherit from 'LabeledInstance<" + methodInfo.DeclaringType.Name + ">'." + 
+                                        throw new ModelProgramUserException("Since the action method '" + methodInfo.Name + "' is non-static, the class '" + methodInfo.DeclaringType.Name + "' must directly inherit from 'LabeledInstance<" + methodInfo.DeclaringType.Name + ">'." +
                                                                             "\nDid you perhaps forget to declare the method 'static'?");
                                 }
 
@@ -339,7 +341,7 @@ namespace NModel.Execution
                                     if (finishActionLabel != null)
                                     {
                                         finishActionMethod = InsertActionMethodFinish(method, finishActionLabel, aInfoMap);
-                                    } 
+                                    }
                                     if (startActionLabel != null)
                                     {
                                         InsertActionMethodStart(method, startActionLabel, finishActionMethod, aInfoMap);
@@ -387,13 +389,13 @@ namespace NModel.Execution
 
             if (modelIsEmpty)
                 throw new ModelProgramUserException("No classes found in model namespace " + modelName + ". Did you misspell?");
-            
+
 
             #endregion
 
-            // todo: Collect "sorts" for each type. Walk type tree of state variables and 
+            // todo: Collect "sorts" for each type. Walk type tree of state variables and
             // action arguments to do this.
- 
+
 
             Symbol[] aSymbols = new Symbol[aInfoMap.Keys.Count];
             int j = 0;
@@ -452,7 +454,7 @@ namespace NModel.Execution
                 {
                     Symbol/*?*/ finishAction = null;
                     foreach (ActionMethod am in aInfo.ActionMethods)
-                    {                       
+                    {
                         ActionMethodStart amStart = am as ActionMethodStart;
                         if (null != amStart)
                         {
@@ -471,7 +473,7 @@ namespace NModel.Execution
                     }
                     if (null == finishAction)
                         throw new InvalidOperationException("Invalid internal state in LibraryModelProgram");
-                    else 
+                    else
                         result.Add(kv.Key, finishAction);
                 }
             }
@@ -483,8 +485,8 @@ namespace NModel.Execution
             // TODO: implement
             throw new NotImplementedException(context.ToString());
 
-            //// Only include sorts for types attributed with a matching model program 
-            //// name, or not attributed with any model program name. (Some types are private 
+            //// Only include sorts for types attributed with a matching model program
+            //// name, or not attributed with any model program name. (Some types are private
             //// to a particular model program; some types are shared by all model programs in the assembly.)
             //if ((modelClassName != null || !hasName) && !ReflectionHelper.IsCompilerGenerated(t))
             //{
@@ -514,7 +516,7 @@ namespace NModel.Execution
                 {
                     throw new ModelProgramUserException("Mismatched number of action arguments");
                 }
-                
+
                 // An action composed of several action methods is split if any of its
                 // action methods is split.
                 if (aInfo.Kind == ActionKind.Start)
@@ -540,8 +542,8 @@ namespace NModel.Execution
             int[] outParamIndices = ReflectionHelper.GetOutputParameterIndices(finishActionLabel, method.methodInfo);
             int arity = finishActionLabel.Arguments.Count;
             ActionMethodFinish am = new ActionMethodFinish(finishActionLabel, method, arity, outParamIndices);
-            
-            
+
+
             ActionInfo aInfo;
             Symbol finishActionSymbol = finishActionLabel.Symbol;
             List<ActionMethod> actionMethods = new List<ActionMethod>();
@@ -552,10 +554,10 @@ namespace NModel.Execution
                 //    throw new ModelProgramUserException("Mismatched number of output action arguments");
                 //}
                 foreach (ActionMethod am1 in aInfo.ActionMethods)
-                    actionMethods.Add(am1);  
+                    actionMethods.Add(am1);
             }
-         
-            actionMethods.Add(am);                
+
+            actionMethods.Add(am);
             aInfoMap[finishActionSymbol] = new ActionInfo(arity, null, ActionKind.Finish, actionMethods);
             return am;
         }
@@ -579,10 +581,10 @@ namespace NModel.Execution
             else
                 throw new ArgumentException("symbol " + actionSymbol.ToString() + " not found.");
         }
-        
+
 
         /// <summary>
-        /// Create a library model program from a given assembly, given a model 
+        /// Create a library model program from a given assembly, given a model
         /// in that assembly, and a given set of features within that model.
         /// </summary>
         /// <param name="assembly">loaded assembly</param>
@@ -646,7 +648,7 @@ namespace NModel.Execution
 
 
         /// <summary>
-        /// Gets the initial state of the ModelProgram. 
+        /// Gets the initial state of the ModelProgram.
         /// </summary>
         /// <returns>The initial state</returns>
         IState GetInitialState()
@@ -733,7 +735,7 @@ namespace NModel.Execution
         //{
         //    // to do: save this info from a yet-to-be defined attribute.
         //    throw new Exception("The method or operation is not implemented.");
-        //} 
+        //}
         #endregion
 
         #region State signature
@@ -846,7 +848,7 @@ namespace NModel.Execution
         /// failure to satisfy the state invariants indicates a modeling error.
         /// </summary>
         /// <param name="state">The state</param>
-        /// <returns>True if <paramref name="state"/>satisfies all state invariants of 
+        /// <returns>True if <paramref name="state"/>satisfies all state invariants of
         /// this model program; false otherwise.</returns>
         public override bool SatisfiesStateInvariant(IState state)
         {
@@ -879,11 +881,11 @@ namespace NModel.Execution
 
         /// <summary>
         /// Boolean value indicating whether all state filter predicates
-        /// defined by this model program are satisfied by <paramref name="state"/>. 
+        /// defined by this model program are satisfied by <paramref name="state"/>.
         /// States that do not satisfy a filter are excluded during exploration.
         /// </summary>
         /// <param name="state">The state</param>
-        /// <returns>True if <paramref name="state"/>satisfies all state filters of 
+        /// <returns>True if <paramref name="state"/>satisfies all state filters of
         /// this model program; false otherwise.</returns>
         public override bool SatisfiesStateFilter(IState state)
         {
@@ -925,7 +927,7 @@ namespace NModel.Execution
         }
 
         /// <summary>
-        /// Checks whether the field denoted by the index is a static field or a fieldmap. 
+        /// Checks whether the field denoted by the index is a static field or a fieldmap.
         /// </summary>
         /// <param name="i">Index of the field</param>
         /// <returns>true if the field is static</returns>
@@ -1034,7 +1036,7 @@ namespace NModel.Execution
                 this.context.SetAsActive();
                 try
                 {
-                    
+
                     return a.IsPotentiallyEnabled(this.context);
                 }
                 finally
@@ -1142,7 +1144,7 @@ namespace NModel.Execution
 
                 foreach(ActionMethod am in actionInfo.ActionMethods)
                     if (am.HasActionParameterDomain(parameterIndex))
-                        return true;                       
+                        return true;
                 return false;
             }
             else
@@ -1162,7 +1164,7 @@ namespace NModel.Execution
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="state"></param>
         /// <param name="actionSymbol"></param>
@@ -1181,7 +1183,7 @@ namespace NModel.Execution
                 if (0 <= parameterIndex && parameterIndex < actionInfo.Arity)
                 {
                     Set<Term>/*?*/ values = null;
-                   
+
                     SetState(state);
                     this.context.SetAsActive();
                     try
@@ -1203,7 +1205,7 @@ namespace NModel.Execution
                         this.context.ClearAsActive();
                     }
                     if (null == values)
-                        throw new ModelProgramUserException("Parameter "+ parameterIndex + " of action '" + actionSymbol + "' does not have a parameter generator." + 
+                        throw new ModelProgramUserException("Parameter "+ parameterIndex + " of action '" + actionSymbol + "' does not have a parameter generator." +
                             "\nFor instance based actions, parameter 0 is the implicit 'this' parameter;" +
                             "\nthe generator is added to the class using [Domain(\"new\")] or [Domain(M)] attribute where M is a custom parameter generator.");
                     return values;
@@ -1275,7 +1277,7 @@ namespace NModel.Execution
         /// </summary>
         /// <param name="state">The state in which the </param>
         /// <param name="action">The action whose enabling conditions will queried</param>
-        /// <param name="returnFailures">If <c>true</c>, enabling conditions that fail in state 
+        /// <param name="returnFailures">If <c>true</c>, enabling conditions that fail in state
         /// <paramref name="state"/> will be returned. If <c>false</c>, all enabling conditions
         /// that are satisfied will be returned.</param>
         /// <returns>An array of description strings for the enabling conditions of action <paramref name="action"/></returns>
@@ -1314,13 +1316,13 @@ namespace NModel.Execution
                 if (this.continuations.TryGetValue(state, out stateContinuations))
                 {
                     bool enabled = stateContinuations.ContainsKey(action);
-                    if (enabled && !returnFailures) 
+                    if (enabled && !returnFailures)
                         yield return "Return value of finish action is the expected value";
                     else if (!enabled && returnFailures)
                     {
                         foreach (CompoundTerm continuation in stateContinuations.Keys)
                             yield return "Unexpected return value of finish action, expected: " +
-                                         continuation.ToString();                                          
+                                         continuation.ToString();
                     }
                 }
                 if (returnFailures)
@@ -1338,7 +1340,7 @@ namespace NModel.Execution
             if (state.ControlMode.Equals(readyControlMode))
             {
                 if (ActionSymbolKind(actionSymbol) == ActionKind.Finish) yield break;
-                //enumerate over the parameter domains, check 
+                //enumerate over the parameter domains, check
                 //enabling conditions and yield the actions
                 ActionInfo/*?*/ actionMethod;
                 // SetState(state);
@@ -1435,12 +1437,12 @@ namespace NModel.Execution
         /// <param name="action">The action to be invoked</param>
         /// <param name="transitionPropertyNames">The names of meta-properties to be collected
         /// during the calculation of the step.</param>
-        /// <param name="transitionProperties">Output parameter that will contain a 
+        /// <param name="transitionProperties">Output parameter that will contain a
         /// map of property names to property values. Each property value multiset of
         /// terms. For example, the property value might be the value of a Boolean function
         /// that controls state filtering. Or, it might correspond to the "coverage" of the model that results from this
-        /// step. In this case, the value might denote the line numbers or blocks of the 
-        /// model program that were exercised in this step, or a projection of the state 
+        /// step. In this case, the value might denote the line numbers or blocks of the
+        /// model program that were exercised in this step, or a projection of the state
         /// space or a reference to section numbers of a requirements document to indicate
         /// that the functionality defined by that section was exercised.</param>
         /// <returns>The state that results from the invocation of <paramref name="action"/>
@@ -1530,7 +1532,7 @@ namespace NModel.Execution
                 foreach (ActionMethod am in actionInfo.ActionMethods)
                 {
                     CompoundTerm/*?*/ newResultTerm = am.DoStep(this.context, currentAction);
-                    if (null == finishAction) 
+                    if (null == finishAction)
                         finishAction = newResultTerm;
                     else if (null != newResultTerm)
                     {
@@ -1539,9 +1541,9 @@ namespace NModel.Execution
                                                                 " returned inconsistent results " +
                                                                 finishAction.ToString()  +
                                                                 " and " +
-                                                                newResultTerm.ToString());                                                              
+                                                                newResultTerm.ToString());
 
-                    }                    
+                    }
                 }
 
                 IState endState = GetState(PopStackFrame(startState.ControlMode));

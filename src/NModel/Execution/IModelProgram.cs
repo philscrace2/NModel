@@ -262,6 +262,10 @@ namespace NModel.Execution
             throw new InvalidOperationException("IsFieldStatic is not implemented in the current context.");
         }
 
+        public IEnumerable<CompoundTerm> GetEnabledActions()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     /// <summary>

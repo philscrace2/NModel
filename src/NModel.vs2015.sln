@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35818.85
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{67AF5EAC-E66B-4881-926C-208BA901A2CD}"
 	ProjectSection(SolutionItems) = preProject
@@ -36,6 +36,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MC", "MC\MC.csproj", "{EA6E7A33-3504-46B3-A96C-FBC207FA81A0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GML", "GML\GML.csproj", "{089BE919-CA77-4302-A68D-43BBDF85643D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NModell.Tests2", "Tests\NModell.Tests2\NModell.Tests2.csproj", "{9E872EB4-6D44-496C-9B0F-F38E2B356EF9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NModelRLTester", "NModelRLTester\NModelRLTester.csproj", "{417A88D9-F609-4C01-8E75-51F835F3F5D5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MDPAlgos", "..\extensions\Strategies\MDPAlgos\MDPAlgos.csproj", "{D722B2CF-E951-4E66-BD24-83585BE1ECA1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,6 +93,18 @@ Global
 		{089BE919-CA77-4302-A68D-43BBDF85643D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{089BE919-CA77-4302-A68D-43BBDF85643D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{089BE919-CA77-4302-A68D-43BBDF85643D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E872EB4-6D44-496C-9B0F-F38E2B356EF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E872EB4-6D44-496C-9B0F-F38E2B356EF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E872EB4-6D44-496C-9B0F-F38E2B356EF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E872EB4-6D44-496C-9B0F-F38E2B356EF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{417A88D9-F609-4C01-8E75-51F835F3F5D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{417A88D9-F609-4C01-8E75-51F835F3F5D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{417A88D9-F609-4C01-8E75-51F835F3F5D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{417A88D9-F609-4C01-8E75-51F835F3F5D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D722B2CF-E951-4E66-BD24-83585BE1ECA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D722B2CF-E951-4E66-BD24-83585BE1ECA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D722B2CF-E951-4E66-BD24-83585BE1ECA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D722B2CF-E951-4E66-BD24-83585BE1ECA1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -101,5 +119,9 @@ Global
 		{817F08C0-6F73-49D4-BC7E-B330345CA9DB} = {45F975E0-FA9A-4AC4-B05A-5ECE974C4A81}
 		{EA6E7A33-3504-46B3-A96C-FBC207FA81A0} = {45F975E0-FA9A-4AC4-B05A-5ECE974C4A81}
 		{089BE919-CA77-4302-A68D-43BBDF85643D} = {45F975E0-FA9A-4AC4-B05A-5ECE974C4A81}
+		{9E872EB4-6D44-496C-9B0F-F38E2B356EF9} = {142AD168-6246-4974-8028-CEC880D0E03B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E4725F6C-B700-435E-B3EC-0989DA362F6E}
 	EndGlobalSection
 EndGlobal
