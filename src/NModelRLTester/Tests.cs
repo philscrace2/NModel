@@ -26,7 +26,7 @@ namespace NModelRLTester
             TesterCore.Strategy strategy = TesterCore.Strategy.RandomizedLeastCost;
 
             // 4. Instantiate the tester
-            var tester = new OnlineTester(model, implementation, strategy, maxRuns: 5, maxSteps: 50);
+            var tester = new OnlineTester(model, implementation, strategy, maxRuns: 5, maxSteps: 10);
 
             // 5. Run the test loop
             tester.RunTests();

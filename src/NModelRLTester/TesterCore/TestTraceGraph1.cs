@@ -30,6 +30,7 @@ namespace NModelRLTester.TesterCore
 
         public void Update(CompoundTerm action)
         {
+            Console.WriteLine($"Updating trace graph with: {action}");
             var state = model.GetAbstractState(action);
             var act = model.GetAbstractAction(action);
             var key = (state, act);

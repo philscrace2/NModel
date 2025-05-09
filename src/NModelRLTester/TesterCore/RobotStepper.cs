@@ -34,6 +34,7 @@ namespace NModelRLTester.TesterCore
 
         public void DoStep(CompoundTerm action)
         {
+            Console.WriteLine($"Model executing: {action}");
             string actionName = action.Name;
             var args = action.Arguments.Select(arg => ((Literal)arg).Value).ToArray();
 
@@ -101,7 +102,11 @@ namespace NModelRLTester.TesterCore
         {
             int id = (int)((Literal)action.Arguments[0]).Value;
             if (robots.TryGetValue(id, out var r))
+            {
+                Console.WriteLine($"State for robot {id}: Power={r.Power}, Reward={r.Reward}");
                 return (r.Power, r.Reward);
+            }
+
             return (-1, -1); // Unknown robot, fallback
         }
 
@@ -112,6 +117,29 @@ namespace NModelRLTester.TesterCore
 
         public CompoundTerm DoAction(CompoundTerm action)
         {
+            Console.WriteLine($"Model executing: {action}");
+            string actionName = action.Name;
+            var args = action.Arguments.Select(arg => ((Literal)arg).Value).ToArray();
+
+            switch (actionName)
+            {
+                case "Start":
+                    robot.Start((int)args[0], robots);
+                    //model.Start((int)args[0], robots);
+                    break;
+                case "Search":
+                    robot.Search((int)args[0], robots);
+                    break;
+                case "Wait":
+                    robot.Wait((int)args[0], robots);
+                    break;
+                case "Recharge":
+                    robot.Recharge((int)args[0], robots);
+                    break;
+                default:
+                    throw new InvalidOperationException($"Unknown action: {actionName}");
+            }
+
             return null;
         }
 
