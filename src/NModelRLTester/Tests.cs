@@ -31,7 +31,7 @@ namespace NModelRLTester
             // 5. Run the test loop
             tester.RunTests();
 
-            tester.Ttg.PrintSummary();
+            tester.Ttg.PrintSummary1();
 
             Console.WriteLine("Test run completed.");
 
