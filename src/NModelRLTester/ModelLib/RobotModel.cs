@@ -26,19 +26,21 @@ namespace NModelRLTester.ModelLib
 
     public class Robot
     {
-        public int Power { get; set; } = 0;
-        public int Reward { get; set; } = 0;
-        public int Id { get; set; } = 0;
+        public int Power { get; set; }
+        public int Reward { get; set; }
+        public int Id { get; }
 
-        public Robot()
+        public Robot(int id)
         {
-
+            Id = id;
+            Power = 100;
+            Reward = 0;
         }
 
-        //public override string ToString()
-        //{
-        //    return $"Robot#{this.Identity}: Power={Power}, Reward={Reward}";
-        //}
+        public override string ToString()
+        {
+            return $"Robot#{Id}: Power={Power}, Reward={Reward}";
+        }
     }
 
     public class RobotModel
@@ -46,7 +48,7 @@ namespace NModelRLTester.ModelLib
         public void Start(int id, Dictionary<int, Robot> robots)
         {
             if (!robots.ContainsKey(id))
-                robots[id] = new Robot();
+                robots[id] = new Robot(id);
         }
 
         [Action]

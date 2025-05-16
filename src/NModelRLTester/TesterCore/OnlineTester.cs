@@ -24,8 +24,10 @@ namespace NModelRLTester.TesterCore
             this.strategy = strategyKind; //new RLStrategy(model, strategyKind);
             this.maxSteps = maxSteps;
             this.maxRuns = maxRuns;
-            ttg = new TestTraceGraph(model);
+            Ttg = new TestTraceGraph(model);
         }
+
+        public TestTraceGraph Ttg { get => ttg; set => ttg = value; }
 
         public void RunTests()
         {
@@ -49,7 +51,7 @@ namespace NModelRLTester.TesterCore
                         impl.DoAction(obs);
                         if (model.EnabledObservables.Contains(obs))
                         {
-                            ttg.Update(obs);
+                            Ttg.Update(obs);
                             model.DoAction(obs);
                         }
                         else
@@ -57,8 +59,8 @@ namespace NModelRLTester.TesterCore
                     }
                     else
                     {
-                        var chosen = ActionSelector.Choose(model, mCtrls, strategy, ttg);
-                        ttg.Update(chosen);
+                        var chosen = ActionSelector.Choose(model, mCtrls, strategy, Ttg);
+                        Ttg.Update(chosen);
                         model.DoAction(chosen);
 
                         if (impl.EnabledControllables.Contains(chosen))

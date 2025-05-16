@@ -130,7 +130,6 @@
     <Compile Include="TesterCore\RobotStepper.cs" />
     <Compile Include="TesterCore\Strategy.cs" />
     <Compile Include="TesterCore\TestTraceGraph.cs" />
-    <Compile Include="TesterCore\TestTraceGraph1.cs" />
     <Compile Include="Tests.cs" />
   </ItemGroup>
   <ItemGroup>

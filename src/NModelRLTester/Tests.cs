@@ -23,13 +23,15 @@ namespace NModelRLTester
             IStepper implementation = new RobotStepper(); // or a real SUT IStepper
 
             // 3. Choose the strategy (Random, LeastCost, RandomizedLeastCost)
-            TesterCore.Strategy strategy = TesterCore.Strategy.RandomizedLeastCost;
+            TesterCore.Strategy strategy = TesterCore.Strategy.Random;
 
             // 4. Instantiate the tester
-            var tester = new OnlineTester(model, implementation, strategy, maxRuns: 5, maxSteps: 10);
+            var tester = new OnlineTester(model, implementation, strategy, maxRuns: 2, maxSteps: 10);
 
             // 5. Run the test loop
             tester.RunTests();
+
+            tester.Ttg.PrintSummary();
 
             Console.WriteLine("Test run completed.");
 

@@ -13,7 +13,7 @@ namespace NModelRLTester.TesterCore
         private ModelProgram model;
         private IState currentState;
         RobotModel robot;
-        int maxRobotId = 5;
+        int maxRobotId = 2;
         private Dictionary<int, Robot> robots;
 
         public IEnumerable<CompoundTerm> _enabledControllables;
@@ -32,31 +32,31 @@ namespace NModelRLTester.TesterCore
             robots = new Dictionary<int, Robot>();
         }
 
-        public void DoStep(CompoundTerm action)
-        {
-            Console.WriteLine($"Model executing: {action}");
-            string actionName = action.Name;
-            var args = action.Arguments.Select(arg => ((Literal)arg).Value).ToArray();
+        //public void DoStep(CompoundTerm action)
+        //{
+        //    Console.WriteLine($"Model executing: {action}");
+        //    string actionName = action.Name;
+        //    var args = action.Arguments.Select(arg => ((Literal)arg).Value).ToArray();
 
-            switch (actionName)
-            {
-                case "Start":
-                    robot.Start((int)args[0], robots);
-                    //model.Start((int)args[0], robots);
-                    break;
-                case "Search":
-                    robot.Search((int)args[0], robots);
-                    break;
-                case "Wait":
-                    robot.Wait((int)args[0], robots);
-                    break;
-                case "Recharge":
-                    robot.Recharge((int)args[0], robots);
-                    break;
-                default:
-                    throw new InvalidOperationException($"Unknown action: {actionName}");
-            }
-        }
+        //    switch (actionName)
+        //    {
+        //        case "Start":
+        //            robot.Start((int)args[0], robots);
+        //            //model.Start((int)args[0], robots);
+        //            break;
+        //        case "Search":
+        //            robot.Search((int)args[0], robots);
+        //            break;
+        //        case "Wait":
+        //            robot.Wait((int)args[0], robots);
+        //            break;
+        //        case "Recharge":
+        //            robot.Recharge((int)args[0], robots);
+        //            break;
+        //        default:
+        //            throw new InvalidOperationException($"Unknown action: {actionName}");
+        //    }
+        //}
 
 
         public IEnumerable<CompoundTerm> GetEnabledActions()
@@ -64,7 +64,7 @@ namespace NModelRLTester.TesterCore
             foreach (var robot in robots.Values)
             {
                 int id = robot.Id;
-
+                Console.WriteLine("GetEnabledActions for robot " + robot.Id + " and robot power " + robot.Power);
                 // Manually evaluate guards (just like you would in a model program)
                 if (robot.Power > 30) // Search guard
                     yield return new CompoundTerm(new Symbol("Search"), new Literal(id));
@@ -73,7 +73,11 @@ namespace NModelRLTester.TesterCore
                     yield return new CompoundTerm(new Symbol("Wait"), new Literal(id));
 
                 if (robot.Power < 100) // Recharge guard
+                {
+                    Console.WriteLine($" → Recharge({id}) enabled");
                     yield return new CompoundTerm(new Symbol("Recharge"), new Literal(id));
+                }
+
             }
 
             // Optional: Allow Start for uninitialized robots

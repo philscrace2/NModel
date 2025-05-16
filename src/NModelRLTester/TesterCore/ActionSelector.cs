@@ -12,21 +12,41 @@ namespace NModelRLTester.TesterCore
     {
         public static CompoundTerm Choose(IModelStepper model, IEnumerable<CompoundTerm> actions, Strategy strategy, TestTraceGraph ttg)
         {
+            var list = actions.ToList();
+            Console.WriteLine($"\n[ActionSelector] Choosing from {list.Count} actions using {strategy}");
+
+            Random random = new Random();
+
             switch (strategy)
             {
                 case Strategy.LeastCost:
                     var min = actions.Min(a => ttg.GetWeight(a));
-                    return actions.Where(a =>
-                        ttg.GetWeight(a) == min).Random();
+                    var minActions = list.Where(a =>
+                        ttg.GetWeight(a) == min).ToList();
+                    Console.WriteLine($" → LeastCost = {min}");
+                    foreach (var a in minActions)
+                        Console.WriteLine($"    - {a}");
+
+                    return minActions[random.Next(minActions.Count)];
 
                 case Strategy.RandomizedLeastCost:
                     var weights = actions.Select(a =>
                     {
                         var w = ttg.GetWeight(a);
+                        Console.WriteLine($" - {a} : weight={w}, score={1.0 / w}");
                         return (a, score: 1.0 / w);
                     }).ToList();
 
-                    return WeightedRandom(weights);
+                    if (random.NextDouble() < 0.2)
+                    {
+                        var randomPick = list[random.Next(list.Count)];
+                        Console.WriteLine($" → Exploring randomly: {randomPick}");
+                        return randomPick;
+                    }
+
+                    var selected = WeightedRandom(weights);
+                    Console.WriteLine($" → Selected: {selected}");
+                    return selected;
 
                 default:
                     return actions.Random();
